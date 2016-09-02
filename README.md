@@ -15,7 +15,7 @@ No employees are paid on weekends.
 
 ## Build and Run the Project
 
-check out the project first
+###check out the project first
 
 git clone https://github.com/davidshue/payroll-services.git
 
