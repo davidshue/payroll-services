@@ -19,11 +19,11 @@ No employees are paid on weekends.
 
 git clone https://github.com/davidshue/payroll-services.git
 
-build it
+###build it
 
 mvn clean package
 
-run it
+###run it
 
 java -jar target/*.jar
 
