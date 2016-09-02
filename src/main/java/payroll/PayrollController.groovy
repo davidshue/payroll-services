@@ -9,7 +9,6 @@ import java.time.LocalDate
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -18,9 +17,6 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class PayrollController {
 	private final Log logger = LogFactory.getLog(getClass())
-	@Value('${seed.count}')
-	private int seeds = 20
-	
 	@Autowired
 	private EmployeeRepository employeeRepo
 
@@ -68,22 +64,38 @@ class PayrollController {
 	void dataBootstrapping() {
 		LocalDate today = LocalDate.now()
 
-		Employee hourly1 = new Employee(id: 1, name: 'Justine', type: EmployeeType.hourly, startDate: LocalDate.of(2016, 1, 1))
+		Employee hourly1 = new Employee(id: 1, name: 'Justin', type: EmployeeType.hourly, startDate: LocalDate.of(2016, 1, 1))
 
 		employeeRepo.save(hourly1)
 
 		workRecordRepo.save(createRecords(hourly1, LocalDate.of(2016, 8, 1), today))
+
+		Employee hourly2 = new Employee(id: 2, name: 'Dwayne', type: EmployeeType.hourly, startDate: LocalDate.of(2016, 8, 1))
+
+		employeeRepo.save(hourly2)
+
+		workRecordRepo.save(createRecords(hourly2, LocalDate.of(2016, 8, 1), today))
 
 
 		Employee salaried1 = new Employee(id: 101, name: 'Maria', type: EmployeeType.salaried, startDate: LocalDate.of(2016, 5, 20))
 
 		employeeRepo.save(salaried1)
 
+		Employee salaried2 = new Employee(id: 102, name: 'Jose', type: EmployeeType.salaried, startDate: LocalDate.of(2016, 2, 29))
+
+		employeeRepo.save(salaried2)
+
 		Employee commissioned1 = new Employee(id: 1001, name: 'Adam', type: EmployeeType.commissioned, startDate: LocalDate.of(2015, 10, 10))
 
 		employeeRepo.save(commissioned1)
 
 		workRecordRepo.save(createRecords(commissioned1, LocalDate.of(2016, 7, 1), today))
+
+		Employee commissioned2 = new Employee(id: 1002, name: 'Jonathan', type: EmployeeType.commissioned, startDate: LocalDate.of(2015, 2, 10))
+
+		employeeRepo.save(commissioned2)
+
+		workRecordRepo.save(createRecords(commissioned2, LocalDate.of(2016, 7, 1), today))
 	}
 
 	private List<WorkRecord> createRecords(Employee employee, LocalDate from, LocalDate to) {

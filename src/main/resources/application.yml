@@ -4,5 +4,3 @@ spring:
       WRITE_DATES_AS_TIMESTAMPS: false
 server:
   port: 8080
-seed:
-  count: 20
