@@ -1,27 +1,35 @@
 package payroll
 
 import groovy.transform.ToString
-import service.model.EmployeeType
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonInclude.Include
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 
 import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 import java.time.LocalDate
 
 @Entity
 @ToString(ignoreNulls=true,includeNames=true)
 @JsonInclude(Include.NON_NULL)
-class Employee {
+class WorkRecord {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id
 
-	EmployeeType type
-
-	String name
+	@JsonIgnore
+	Long employeeId
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	LocalDate startDate
+	LocalDate workDay
+
+	Integer hours
+
+	@JsonSerialize(using = MoneySerializer.class)
+	BigDecimal sales
 }
