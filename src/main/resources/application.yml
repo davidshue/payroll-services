@@ -1,0 +1,4 @@
+server:
+  port: 8080
+seed:
+  count: 20

@@ -1,0 +1,53 @@
+= Playground Payroll Web Services Getting Started Guide
+David Shue;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[introduction]
+= Introduction
+
+Phoenix Service is a RESTful web service for Project Phoenix. 
+
+[getting-started]
+= Getting started
+
+
+
+[getting-started-running-the-service]
+== Running the service
+Phoenix Mock Services is written using http://projects.spring.io/spring-boot[Spring Boot] which
+makes it easy to get it up and running so that you can start exploring the REST API.
+
+The first step is to clone the Git repository:
+
+[source,bash]
+----
+$ git clone https://github.com/davidshue/payroll-services.git
+----
+
+Once the clone is complete, you're ready to get the service up and running:
+
+[source,bash]
+----
+$ cd {project_workspace}/mock-services
+$ mvn clean package
+$ java -jar target/*.jar
+----
+
+You can check that the service is up and running by executing a simple request using
+cURL:
+
+include::{snippets}/home/curl-request.adoc[]
+
+This request should yield the following response
+
+include::{snippets}/home/http-response.adoc[]
+
+
+You can hit the service in the browser by
+(e.g)localhost:8080/ws/internal/v1/content/artifact/62
+for the id to use, check the data Bootstrapping results in the console when running ApiDocumentation(tests)

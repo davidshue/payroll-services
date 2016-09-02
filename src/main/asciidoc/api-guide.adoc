@@ -1,0 +1,105 @@
+= Playground Payroll Web Services API Guide
+David Shue;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[overview]]
+= Overview
+
+[[overview-http-verbs]]
+== HTTP verbs
+
+RESTful notes tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP verbs.
+
+|===
+| Verb | Usage
+
+| `GET`
+| Used to retrieve a resource
+
+| `POST`
+| Used to create a new resource
+
+| `PATCH`
+| Used to update an existing resource, including partial updates
+
+| `DELETE`
+| Used to delete an existing resource
+|===
+
+[[overview-http-status-codes]]
+== HTTP status codes
+
+RESTful notes tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP status codes.
+
+|===
+| Status code | Usage
+
+| `200 OK`
+| The request completed successfully
+
+| `201 Created`
+| A new resource has been created successfully. The resource's URI is available from the response's
+`Location` header
+
+| `204 No Content`
+| An update to an existing resource has been applied successfully
+
+| `400 Bad Request`
+| The request was malformed. The response body will include an error providing further information
+
+| `404 Not Found`
+| The requested resource did not exist
+|===
+
+[[resources]]
+= Resources
+
+[[resources-notes]]
+== Cards
+
+The Cards resources is used to list all cards. Cards are sorted by phase, month, week, and day.
+
+
+
+[[resources-cards-list]]
+=== Listing cards
+
+A `GET` request will list all of the cards.
+
+==== Example request
+
+include::{snippets}/cards/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/cards/http-response.adoc[]
+
+==== Response structure
+
+include::{snippets}/cards/response-fields.adoc[]
+
+[[resources-artifact]]
+=== Artifact Details
+
+A `GET` request will get artifact details. Artifacts are just content pages, and id here is the versionId
+of the content page. If a content page with that version id does not exist for that country, it will give 
+you a 404 response code, and the payload will the reasons.
+
+==== Example request
+
+include::{snippets}/artifact/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/artifact/http-response.adoc[]
+
+==== Response structure
+
+include::{snippets}/artifact/response-fields.adoc[]
