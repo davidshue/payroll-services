@@ -16,12 +16,15 @@ No employees are paid on weekends.
 ## Build and Run the Project
 
 check out the project first
+
 git clone https://github.com/davidshue/payroll-services.git
 
 build it
+
 mvn clean package
 
 run it
+
 java -jar target/*.jar
 
 ## web services endpoint
@@ -33,4 +36,5 @@ day request param is not required.
 
 ## API endpoints
 http://localhost:8080/api/docs/api-guide.html
+
 http://localhost:8080/api/docs/getting-started-guide.html
