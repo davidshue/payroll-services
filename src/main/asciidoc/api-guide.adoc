@@ -62,44 +62,40 @@ use of HTTP status codes.
 = Resources
 
 [[resources-notes]]
-== Cards
+== payroll
 
-The Cards resources is used to list all cards. Cards are sorted by phase, month, week, and day.
+The payroll web service that will spit out the employees that are supposed to get paid that day, plus the amount of their pay. Weekend excluded.
 
 
 
-[[resources-cards-list]]
-=== Listing cards
+[[resources-employee-list]]
+=== Listing employees
 
 A `GET` request will list all of the cards.
 
 ==== Example request
 
-include::{snippets}/cards/curl-request.adoc[]
+include::{snippets}/employees/curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/cards/http-response.adoc[]
+include::{snippets}/employees/http-response.adoc[]
 
 ==== Response structure
 
-include::{snippets}/cards/response-fields.adoc[]
+include::{snippets}/employees/response-fields.adoc[]
 
-[[resources-artifact]]
-=== Artifact Details
+[[resources-payroll]]
+=== Listing payrolls
 
-A `GET` request will get artifact details. Artifacts are just content pages, and id here is the versionId
-of the content page. If a content page with that version id does not exist for that country, it will give 
-you a 404 response code, and the payload will the reasons.
+A `GET` request will get employees, plus their pay for that day.
+
+Request param day is optional. If not given, it will use today by default
 
 ==== Example request
 
-include::{snippets}/artifact/curl-request.adoc[]
+include::{snippets}/payroll/curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/artifact/http-response.adoc[]
-
-==== Response structure
-
-include::{snippets}/artifact/response-fields.adoc[]
+include::{snippets}/payroll/http-response.adoc[]

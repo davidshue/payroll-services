@@ -10,7 +10,7 @@ David Shue;
 [introduction]
 = Introduction
 
-Phoenix Service is a RESTful web service for Project Phoenix. 
+Payroll services are test web services that are using spring-boot, spring-data, spring-restdocs-mockmvc, spring-mvc
 
 [getting-started]
 = Getting started
@@ -19,7 +19,7 @@ Phoenix Service is a RESTful web service for Project Phoenix.
 
 [getting-started-running-the-service]
 == Running the service
-Phoenix Mock Services is written using http://projects.spring.io/spring-boot[Spring Boot] which
+Playground Payroll Services is written using http://projects.spring.io/spring-boot[Spring Boot] which
 makes it easy to get it up and running so that you can start exploring the REST API.
 
 The first step is to clone the Git repository:
@@ -33,7 +33,7 @@ Once the clone is complete, you're ready to get the service up and running:
 
 [source,bash]
 ----
-$ cd {project_workspace}/mock-services
+$ cd {project_workspace}/payroll-services
 $ mvn clean package
 $ java -jar target/*.jar
 ----
@@ -49,5 +49,6 @@ include::{snippets}/home/http-response.adoc[]
 
 
 You can hit the service in the browser by
-(e.g)localhost:8080/ws/internal/v1/content/artifact/62
-for the id to use, check the data Bootstrapping results in the console when running ApiDocumentation(tests)
+(e.g)localhost:8080/ws/v1/payroll(?day=2016-08-01)
+request param day should have the format of yyyy-dd-MM, check the data
+Bootstrapping results in the console when running ApiDocumentation(tests)

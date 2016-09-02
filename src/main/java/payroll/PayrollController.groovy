@@ -44,21 +44,24 @@ class PayrollController {
 		employees
 	}
 
-	@RequestMapping('/ws/v1/workRecords/{employeeId}')
-	workRecords(@PathVariable("employeeId") Long employeeId) {
-		LocalDate date = LocalDate.of(2016, 8, 20)
-		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayAfter(employeeId, date)
+	@RequestMapping('/ws/v1/workrecords/{employeeId}')
+	workRecords(@PathVariable("employeeId") Long employeeId, @RequestParam(name="day", required = false) String day) {
+		LocalDate payday = LocalDate.now()
+		if (day) {
+			payday = LocalDate.parse(day)
+		}
+		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayAfter(employeeId, payday)
 
 		records
 	}
 
-	@RequestMapping('/ws/v1/pay')
+	@RequestMapping('/ws/v1/payroll')
 	pay(@RequestParam(name="day", required = false) String day) {
 		LocalDate payday = LocalDate.now()
 		if (day) {
 			payday = LocalDate.parse(day)
 		}
-		payrollService.computePayRoll(payday)
+		payrollService.computePayRoll(payday).collectEntries {k, v -> [k.name, v.setScale(2, BigDecimal.ROUND_HALF_UP).toString()]}
 	}
 
 	@PostConstruct
