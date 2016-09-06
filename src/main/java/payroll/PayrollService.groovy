@@ -40,11 +40,11 @@ class PayrollService {
 			case {it.contains(EmployeeType.salaried)}:
 				return getFulltimeSalary(start, date)
 			case {it.contains(EmployeeType.hourly) && it.contains(EmployeeType.commissioned)}:
-				return getCombinedSalary(employee, start)
+				return getCombinedSalary(employee, start, date)
 			case {it.contains(EmployeeType.hourly)}:
-				return getHourlyPay(employee, start)
+				return getHourlyPay(employee, start, date)
 			case {it.contains(EmployeeType.commissioned)}:
-				return getCommissions(employee, start)
+				return getCommissions(employee, start, date)
 			default:
 				break
 		}
@@ -52,17 +52,17 @@ class PayrollService {
 		return null
 	}
 
-	private BigDecimal getHourlyPay(Employee employee, LocalDate from) {
-		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayGreaterThanEqual(employee.id, from)
+	private BigDecimal getHourlyPay(Employee employee, LocalDate from, LocalDate to) {
+		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayGreaterThanEqualAndWorkDayBefore(employee.id, from, to)
 		def pay = records.inject(0.0) {result, it ->
-			result += 15.0 * it.hours?.multiply(0.1d)
+			result += 15.0 * it.hours
 			result
 		}
 		new BigDecimal(pay)
 	}
 
-	private BigDecimal getCommissions(Employee employee, LocalDate from) {
-		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayGreaterThanEqual(employee.id, from)
+	private BigDecimal getCommissions(Employee employee, LocalDate from, LocalDate to) {
+		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayGreaterThanEqualAndWorkDayBefore(employee.id, from, to)
 		def pay = records.inject(0.0) {result, it ->
 			result += it.sales?.multiply(0.1d)
 			result
@@ -70,8 +70,8 @@ class PayrollService {
 		new BigDecimal(pay)
 	}
 
-	private BigDecimal getCombinedSalary(Employee employee, LocalDate from) {
-		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayGreaterThanEqual(employee.id, from)
+	private BigDecimal getCombinedSalary(Employee employee, LocalDate from, LocalDate to) {
+		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayGreaterThanEqualAndWorkDayBefore(employee.id, from, to)
 		def pay = records.inject(0.0) {result, it ->
 			result += 15.0 * it.hours
 			result += it.sales?.multiply(0.1d)
