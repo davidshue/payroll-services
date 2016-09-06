@@ -64,7 +64,7 @@ class PayrollService {
 	private BigDecimal getCommissions(Employee employee, LocalDate from) {
 		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayAfter(employee.id, from.minusDays(-1))
 		def pay = records.inject(0.0) {result, it ->
-			result += it.sales
+			result += it.sales?.multiply(0.1d)
 			result
 		}
 		new BigDecimal(pay)
