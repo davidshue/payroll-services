@@ -28,8 +28,8 @@ class WorkRecord {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	LocalDate workDay
 
-	Integer hours
+	Integer hours = 0
 
 	@JsonSerialize(using = MoneySerializer.class)
-	BigDecimal sales
+	BigDecimal sales = BigDecimal.ZERO
 }

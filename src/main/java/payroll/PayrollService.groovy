@@ -4,8 +4,6 @@ import service.model.EmployeeType
 
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.temporal.TemporalField
-import java.time.temporal.WeekFields
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -36,12 +34,10 @@ class PayrollService {
 		if (!start) return null
 
 		switch (employee.type) {
-			case EmployeeType.hourly:
-				return getHourlySalary(employee, start)
 			case EmployeeType.salaried:
 				return getFulltimeSalary(start, date)
-			case EmployeeType.commissioned:
-				return getCommission(employee, start)
+			case EmployeeType.non_salaried:
+				return getNonFulltimeSalary(employee, start)
 			default:
 				break
 		}
@@ -49,10 +45,11 @@ class PayrollService {
 		return null
 	}
 
-	private BigDecimal getHourlySalary(Employee employee, LocalDate from) {
+	private BigDecimal getNonFulltimeSalary(Employee employee, LocalDate from) {
 		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayAfter(employee.id, from.minusDays(-1))
 		def pay = records.inject(0.0) {result, it ->
 			result += 15.0 * it.hours
+			result += it.sales?.multiply(0.1d)
 			result
 		}
 		new BigDecimal(pay)
@@ -68,19 +65,10 @@ class PayrollService {
 		return new BigDecimal(total * 150.0)
 	}
 
-	private BigDecimal getCommission(Employee employee, LocalDate from) {
-		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayAfter(employee.id, from.minusDays(-1))
-		def pay = records.inject(0.0) {result, it ->
-			result += 0.1 * it.sales
-			result
-		}
-		new BigDecimal(pay)
-	}
-
 
 	private LocalDate getPayDayStartDate(Employee employee, LocalDate date) {
 		switch (employee.type) {
-			case EmployeeType.hourly:
+			case EmployeeType.non_salaried:
 				if (date.dayOfWeek == DayOfWeek.MONDAY) {
 					LocalDate start = date.minusDays(7)
 					return start.isAfter(employee.startDate) ? start: employee.startDate
@@ -92,6 +80,7 @@ class PayrollService {
 					return start.isAfter(employee.startDate) ? start : employee.startDate
 				}
 				return null
+			/*
 			case EmployeeType.commissioned:
 				TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()
 				if (date.dayOfWeek == DayOfWeek.MONDAY && date.get(woy) % 2 == 0) {
@@ -99,6 +88,7 @@ class PayrollService {
 					return start.isAfter(employee.startDate) ? start : employee.startDate
 				}
 				return null
+				*/
 			default:
 				return null
 		}
