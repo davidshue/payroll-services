@@ -27,7 +27,7 @@ class DataBootstrapper {
 		salaried: [id: 101, name: 'Maria', startDate: LocalDate.of(2016, 5, 20)],
 		commissioned_paidBiweekly: [id: 1001, name: 'Adam', salaried: false, hourly: false, commissioned: true, startDate: LocalDate.of(2015, 10, 10), paySchedule: PaySchedule.biweekly],
 		commissioned_paidMonthly: [id: 1002, name: 'Jonathan', salaried: false, hourly: false, commissioned: true, startDate: LocalDate.of(2015, 2, 10), paySchedule: PaySchedule.monthly],
-		combined_paidWeekly: [id: 10001, name: 'Susan', salaried: false, hourly: true, commissioned: true, startDate: LocalDate.of(2016, 1, 1), paySchedule: PaySchedule.weekly],
+		combined_paidBiWeekly: [id: 10001, name: 'Susan', salaried: false, hourly: true, commissioned: true, startDate: LocalDate.of(2016, 1, 1), paySchedule: PaySchedule.biweekly],
 		combined_paidMonthly: [id: 10002, name: 'Fiona', salaried: false, hourly: true, commissioned: true, startDate: LocalDate.of(2016, 8, 1), paySchedule: PaySchedule.monthly]
 	]
 	@PostConstruct
