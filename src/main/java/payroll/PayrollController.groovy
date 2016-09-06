@@ -1,5 +1,7 @@
 package payroll
 
+import service.model.PaySchedule
+
 import javax.annotation.PostConstruct
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -62,42 +64,42 @@ class PayrollController {
 	void dataBootstrapping() {
 		LocalDate today = LocalDate.now()
 
-		Employee hourly1 = new NonSalariedEmployee(id: 1, name: 'Justin', startDate: LocalDate.of(2016, 1, 1))
+		Employee hourlyWeekly1 = new Employee(id: 1, name: 'Justin', salaried: false, commissioned: false,  startDate: LocalDate.of(2016, 1, 1), paySchedule: PaySchedule.weekly)
 
-		employeeRepo.save(hourly1)
+		employeeRepo.save(hourlyWeekly1)
 
-		workRecordRepo.save(createRecords(hourly1, LocalDate.of(2016, 8, 1), today, WorkRecordType.HOURS))
+		workRecordRepo.save(createRecords(hourlyWeekly1, LocalDate.of(2016, 8, 1), today, WorkRecordType.HOURS))
 
 		List<WorkRecord> records = workRecordRepo.findAll()
 
 		println records
 
-		Employee hourly2 = new NonSalariedEmployee(id: 2, name: 'Dwayne', startDate: LocalDate.of(2016, 8, 1))
+		Employee hourlyWeekly2 = new Employee(id: 2, name: 'Dwayne', salaried: false, commissioned: false, startDate: LocalDate.of(2016, 8, 1), paySchedule: PaySchedule.monthly)
 
-		employeeRepo.save(hourly2)
+		employeeRepo.save(hourlyWeekly2)
 
-		workRecordRepo.save(createRecords(hourly2, LocalDate.of(2016, 8, 1), today, WorkRecordType.SALES))
+		workRecordRepo.save(createRecords(hourlyWeekly2, LocalDate.of(2016, 8, 1), today, WorkRecordType.SALES))
 
 
-		Employee salaried1 = new SalariedEmployee(id: 101, name: 'Maria', startDate: LocalDate.of(2016, 5, 20))
+		Employee salaried1 = new Employee(id: 101, name: 'Maria', salaried: true, commissioned: false, startDate: LocalDate.of(2016, 5, 20))
 
 		employeeRepo.save(salaried1)
 
-		Employee salaried2 = new SalariedEmployee(id: 102, name: 'Jose', startDate: LocalDate.of(2016, 2, 29))
+		Employee salaried2 = new Employee(id: 102, name: 'Jose', salaried: true, commissioned: false, startDate: LocalDate.of(2016, 2, 29))
 
 		employeeRepo.save(salaried2)
 
-		Employee commissioned1 = new NonSalariedEmployee(id: 1001, name: 'Adam', startDate: LocalDate.of(2015, 10, 10))
+		Employee commissionedBiweekly1 = new Employee(id: 1001, name: 'Adam', salaried: false, commissioned: true, startDate: LocalDate.of(2015, 10, 10), paySchedule: PaySchedule.biweekly)
 
-		employeeRepo.save(commissioned1)
+		employeeRepo.save(commissionedBiweekly1)
 
-		workRecordRepo.save(createRecords(commissioned1, LocalDate.of(2016, 7, 1), today, WorkRecordType.SALES))
+		workRecordRepo.save(createRecords(commissionedBiweekly1, LocalDate.of(2016, 7, 1), today, WorkRecordType.SALES))
 
-		Employee commissioned2 = new NonSalariedEmployee(id: 1002, name: 'Jonathan', startDate: LocalDate.of(2015, 2, 10))
+		Employee commissionedMonthly1 = new Employee(id: 1002, name: 'Jonathan', salaried: false, commissioned: true, startDate: LocalDate.of(2015, 2, 10), paySchedule: PaySchedule.monthly)
 
-		employeeRepo.save(commissioned2)
+		employeeRepo.save(commissionedMonthly1)
 
-		workRecordRepo.save(createRecords(commissioned2, LocalDate.of(2016, 7, 1), today, WorkRecordType.SALES))
+		workRecordRepo.save(createRecords(commissionedMonthly1, LocalDate.of(2016, 7, 1), today, WorkRecordType.SALES))
 	}
 
 	private List<WorkRecord> createRecords(Employee employee, LocalDate from, LocalDate to, WorkRecordType type) {

@@ -1,9 +1,12 @@
 package payroll
 
 import service.model.EmployeeType
+import service.model.PaySchedule
 
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.temporal.TemporalField
+import java.time.temporal.WeekFields
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -33,11 +36,15 @@ class PayrollService {
 		LocalDate start = getPayDayStartDate(employee, date)
 		if (!start) return null
 
-		switch (employee.type) {
-			case EmployeeType.salaried:
+		switch (employee.types) {
+			case {it.contains(EmployeeType.salaried)}:
 				return getFulltimeSalary(start, date)
-			case EmployeeType.non_salaried:
-				return getNonFulltimeSalary(employee, start)
+			case {it.contains(EmployeeType.hourly) && it.contains(EmployeeType.commissioned)}:
+				return getCombinedSalary(employee, start)
+			case {it.contains(EmployeeType.hourly)}:
+				return getHourlyPay(employee, start)
+			case {it.contains(EmployeeType.commissioned)}:
+				return getCommissions(employee, start)
 			default:
 				break
 		}
@@ -45,7 +52,25 @@ class PayrollService {
 		return null
 	}
 
-	private BigDecimal getNonFulltimeSalary(Employee employee, LocalDate from) {
+	private BigDecimal getHourlyPay(Employee employee, LocalDate from) {
+		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayAfter(employee.id, from.minusDays(-1))
+		def pay = records.inject(0.0) {result, it ->
+			result += 15.0 * it.hours?.multiply(0.1d)
+			result
+		}
+		new BigDecimal(pay)
+	}
+
+	private BigDecimal getCommissions(Employee employee, LocalDate from) {
+		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayAfter(employee.id, from.minusDays(-1))
+		def pay = records.inject(0.0) {result, it ->
+			result += it.sales
+			result
+		}
+		new BigDecimal(pay)
+	}
+
+	private BigDecimal getCombinedSalary(Employee employee, LocalDate from) {
 		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayAfter(employee.id, from.minusDays(-1))
 		def pay = records.inject(0.0) {result, it ->
 			result += 15.0 * it.hours
@@ -67,28 +92,26 @@ class PayrollService {
 
 
 	private LocalDate getPayDayStartDate(Employee employee, LocalDate date) {
-		switch (employee.type) {
-			case EmployeeType.non_salaried:
+		switch (employee.paySchedule) {
+			case PaySchedule.weekly:
 				if (date.dayOfWeek == DayOfWeek.MONDAY) {
 					LocalDate start = date.minusDays(7)
 					return start.isAfter(employee.startDate) ? start: employee.startDate
 				}
 				return null
-			case EmployeeType.salaried:
+			case PaySchedule.monthly:
 				if (date.dayOfMonth == 1) {
 					LocalDate start = date.minusMonths(1)
 					return start.isAfter(employee.startDate) ? start : employee.startDate
 				}
 				return null
-			/*
-			case EmployeeType.commissioned:
+			case PaySchedule.biweekly:
 				TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()
 				if (date.dayOfWeek == DayOfWeek.MONDAY && date.get(woy) % 2 == 0) {
 					LocalDate start = date.minusWeeks(2)
 					return start.isAfter(employee.startDate) ? start : employee.startDate
 				}
 				return null
-				*/
 			default:
 				return null
 		}
