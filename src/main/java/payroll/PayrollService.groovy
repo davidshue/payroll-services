@@ -55,7 +55,7 @@ class PayrollService {
 	private BigDecimal getHourlyPay(Employee employee, LocalDate from) {
 		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayGreaterThanEqual(employee.id, from)
 		def pay = records.inject(0.0) {result, it ->
-			result += 15.0 * it.hours?.multiply(0.1d)
+			result += 15.0 * it.hours
 			result
 		}
 		new BigDecimal(pay)
