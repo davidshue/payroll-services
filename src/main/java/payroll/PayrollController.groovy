@@ -42,7 +42,7 @@ class PayrollController {
 		if (day) {
 			payday = LocalDate.parse(day)
 		}
-		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayAfter(employeeId, payday)
+		List<WorkRecord> records = workRecordRepo.findByEmployeeIdAndWorkDayGreaterThanEqual(employeeId, payday)
 
 		records
 	}

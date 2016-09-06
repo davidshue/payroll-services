@@ -8,5 +8,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface WorkRecordRepository extends CrudRepository<WorkRecord, Long> {
 	List<WorkRecord> findByEmployeeId(Long employeeId);
 
-	List<WorkRecord> findByEmployeeIdAndWorkDayAfter(Long employeeId, LocalDate start);
+	List<WorkRecord> findByEmployeeIdAndWorkDayGreaterThanEqual(Long employeeId, LocalDate start);
 }
