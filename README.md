@@ -28,9 +28,9 @@ mvn clean package
 java -jar target/*.jar
 
 ## web services endpoint
-http://localhost:8080/ws/v1/employees
+http://localhost:8080/ws/v2/employees
 
-http://localhost:8080/ws/v1/payroll(?day=yyyy-MM-dd)
+http://localhost:8080/ws/v2/payroll(?day=yyyy-MM-dd)
 
 day request param is not required.
 

@@ -49,6 +49,6 @@ include::{snippets}/home/http-response.adoc[]
 
 
 You can hit the service in the browser by
-(e.g)localhost:8080/ws/v1/payroll(?day=2016-08-01)
+(e.g)localhost:8080/ws/v2/payroll(?day=2016-08-01)
 request param day should have the format of yyyy-dd-MM, check the data
 Bootstrapping results in the console when running ApiDocumentation(tests)

@@ -5,6 +5,7 @@ import service.model.EmployeeType
 import service.model.PaySchedule
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonInclude.Include
 
@@ -25,18 +26,24 @@ class Employee {
 	String name
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	LocalDate startDate
+	LocalDate startDate = LocalDate.of(1990, 1, 1)
 
-	boolean salaried
+	@JsonIgnore
+	boolean salaried = true
 
-	boolean commissioned
+	@JsonIgnore
+	boolean hourly = false
 
-	PaySchedule paySchedule
+	@JsonIgnore
+	boolean commissioned = false
+
+	PaySchedule paySchedule = PaySchedule.monthly
 
 
 	List<EmployeeType> getTypes() {
+		if (salaried) return [EmployeeType.salaried]
 		def types = []
-		salaried ? types << EmployeeType.salaried : types << EmployeeType.hourly
+		if (hourly) types << EmployeeType.hourly
 		if (commissioned) types << EmployeeType.commissioned
 		return types
 	}

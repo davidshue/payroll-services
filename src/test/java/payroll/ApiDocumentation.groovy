@@ -53,21 +53,22 @@ class ApiDocumentation {
 
 	@Test
 	void employees() {
-		this.mockMvc.perform(get("/ws/v1/employees").accept(MediaType.APPLICATION_JSON))
+		this.mockMvc.perform(get("/ws/v2/employees").accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andDo(document("employees",
 			responseFields(
 				fieldWithPath("[].id").description("id of the employee"),
-				fieldWithPath("[].type").description("type of employees hourly/salaried/commissioned"),
+				fieldWithPath("[].types").description("type of employees hourly/salaried/commissioned"),
 				fieldWithPath("[].name").description("name of employee"),
 				fieldWithPath("[].startDate").description("start date of employee"),
+				fieldWithPath("[].paySchedule").description("Pay Schedule for the employee, monthly/weekly/biweekly")
 			)))
 	}
 
 
 	@Test
 	void payroll() {
-		this.mockMvc.perform(get("/ws/v1/payroll").param("day", "2016-08-22").accept(MediaType.APPLICATION_JSON))
+		this.mockMvc.perform(get("/ws/v2/payroll").param("day", "2016-08-22").accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andDo(document("payroll"))
 	}
