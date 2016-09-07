@@ -59,13 +59,13 @@ class DataBootstrapper {
 			if (date.dayOfWeek != DayOfWeek.SATURDAY && date.dayOfWeek != DayOfWeek.SUNDAY) {
 				switch(recordType) {
 					case WorkRecordType.HOURS:
-						records << new WorkRecord(employeeId: employee.id, workDay: date,  hours: 8)
+						records << new WorkRecord(employee: employee, workDay: date,  hours: 8)
 						break
 					case WorkRecordType.SALES:
-						records << new WorkRecord(employeeId: employee.id, workDay: date, sales: new BigDecimal(100.20))
+						records << new WorkRecord(employee: employee, workDay: date, sales: new BigDecimal(100.20))
 						break
 					case WorkRecordType.COMBINED:
-						records << new WorkRecord(employeeId: employee.id, workDay: date, hours: 4, sales: new BigDecimal(50.80))
+						records << new WorkRecord(employee: employee, workDay: date, hours: 4, sales: new BigDecimal(50.80))
 						break
 					default:
 						break

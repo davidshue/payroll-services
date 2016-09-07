@@ -8,10 +8,12 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonInclude.Include
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 
+import javax.persistence.Convert
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.ManyToOne
 import java.time.LocalDate
 
 @Entity
@@ -23,9 +25,11 @@ class WorkRecord {
 	Long id
 
 	@JsonIgnore
-	Long employeeId
+	@ManyToOne
+	Employee employee
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
+	@Convert(converter = LocalDatePersistenceConverter.class)
 	LocalDate workDay
 
 	Integer hours = 0

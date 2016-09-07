@@ -38,3 +38,11 @@ day request param is not required.
 http://localhost:8080/api/docs/api-guide.html
 
 http://localhost:8080/api/docs/getting-started-guide.html
+
+## Connecting to local in memory H2 database console
+
+http://localhost:8080/console
+
+JDBC URL: jdbc:h2:mem:testdb
+
+Accept everything else

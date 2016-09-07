@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonInclude.Include
 
+import javax.persistence.Convert
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.Inheritance
@@ -26,6 +27,7 @@ class Employee {
 	String name
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
+	@Convert(converter = LocalDatePersistenceConverter.class)
 	LocalDate startDate = LocalDate.of(1990, 1, 1)
 
 	@JsonIgnore

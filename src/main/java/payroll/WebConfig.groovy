@@ -7,6 +7,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer
 
 import java.time.LocalDate
 
+import org.h2.server.web.WebServlet
+import org.springframework.boot.context.embedded.ServletRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
@@ -34,5 +36,12 @@ class WebConfig extends WebMvcConfigurerAdapter {
 		javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer());
 		objectMapper.registerModule(javaTimeModule);
 		return objectMapper;
+	}
+
+	@Bean
+	ServletRegistrationBean h2servletRegistration(){
+		ServletRegistrationBean registrationBean = new ServletRegistrationBean( new WebServlet());
+		registrationBean.addUrlMappings("/console/*");
+		return registrationBean;
 	}
 }
