@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include
 
 import javax.persistence.Convert
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.Id
 import javax.persistence.Inheritance
 import javax.persistence.InheritanceType
@@ -39,6 +41,7 @@ class Employee {
 	@JsonIgnore
 	boolean commissioned = false
 
+	@Enumerated(EnumType.STRING)
 	PaySchedule paySchedule = PaySchedule.monthly
 
 
