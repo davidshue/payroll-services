@@ -14,12 +14,9 @@ import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
 import javax.persistence.Id
-import javax.persistence.Inheritance
-import javax.persistence.InheritanceType
 import java.time.LocalDate
 
 @Entity
-@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 @ToString(ignoreNulls=true,includeNames=true)
 @JsonInclude(Include.NON_NULL)
 class Employee {
